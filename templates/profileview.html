@@ -1,0 +1,82 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link type="text/css" href="/css/cupertino/jquery-ui-1.8.14.custom.css" rel="stylesheet" />	
+	<link type="text/css" href="/css/main.css" rel="stylesheet" />
+	<title>Profile View</title>
+</head>
+<body>
+
+<div id="container">
+	<div id="header">
+		<div id='loginBox'>
+			{% if userinfo %}
+				<a href='/logout'>Logout</a>
+			{% else %}
+				<a href='{{target_url}}'>Login</a>
+			{% endif %}
+	    </div>
+	</div>
+
+	<div id="wrapper">
+		<div id="content">
+			{% if 'id' in userinfo %}
+				<div id='datarow'>
+					<p>User ID: {{userinfo.id}}</p>
+				</div>
+			{% endif %}
+			{% if 'name' in userinfo %}
+				<div id='datarow'>
+					<p>Name: {{userinfo.name}}</p>
+				</div>
+			{% endif %}
+			{% if 'given_name' in userinfo %}
+				<div id='datarow'>
+					<p>Given Name: {{userinfo.given_name}}</p>
+				</div>
+			{% endif %}
+			{% if 'family_name' in userinfo %}
+				<div id='datarow'>
+					<p>Family Name: {{userinfo.family_name}}</p>
+				</div>
+			{% endif %}
+			{% if 'locale' in userinfo %}
+				<div id='datarow'>
+					<p>Locale: {{userinfo.locale}}</p>
+				</div>
+			{% endif %}
+			{% if 'gender' in userinfo %}
+				<div id='datarow'>
+					<p>Gender: {{userinfo.gender}}</p>
+				</div>
+			{% endif %}
+			{% if 'email' in userinfo %}
+				<div id='datarow'>
+					<p>Email: {{userinfo.email}}</p>
+				</div>
+			{% endif %}
+			{% if 'verified_email' in userinfo %}
+				<div id='datarow'>
+					<p>Verified Email: {{userinfo.verified_email}}</p>
+				</div>
+			{% endif %}
+			{% if 'picture' in userinfo %}
+				<div id='datarow'>
+				 	<img src='{{userinfo.picture}}' alt='profile picture' width='100px'/>
+				</div>
+			{% endif %}
+			
+			
+		</div>
+	</div>
+	<div id="footer">
+		<hr>
+		<p>This site demonstrates Google's OAuth2 login support. It's a prototype and should be treated that way. Source available at <a href="https://github.com/justinjsmith/oauth2-login-demo">GitHub</a>
+			</p>
+			<img src="http://code.google.com/appengine/images/appengine-silver-120x30.gif" alt="Powered by Google App Engine" />
+    </div>
+   </div>
+	
+
+</body>
+</html>

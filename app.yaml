@@ -1,0 +1,17 @@
+application: oauth2-login-demo
+version: 1
+runtime: python
+api_version: 1
+
+handlers:
+- url: /js
+  static_dir: js
+
+- url: /css
+  static_dir: css
+  
+- url: /images
+  static_dir: images
+      
+- url: .*
+  script: main.py

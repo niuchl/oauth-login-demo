@@ -1,0 +1,98 @@
+html,body{margin:0;padding:0;}
+
+body{font: 14px arial,sans-serif;}
+
+p{margin:0 10px 10px;}
+
+a{display:block;padding:10px;}
+
+div#loginBox {
+    float:right;
+    text-align: right;
+    position:relative;
+    top:5px;
+    right:5px;
+    font-size: 16px;
+    line-height:20px;
+    padding-right:10px;
+    padding-bottom:15px;
+    font-weight:normal;
+    width:350px;
+}
+
+div#loginBox img{
+    float:right;
+    margin-left:10px;
+}
+
+div#loginBox a{display:inline;padding:5px;}
+
+div#container{
+ word-wrap:break-word;
+}
+
+div#content p{line-height:1.4;}
+
+div#navigation{
+}
+
+div#extra{}
+
+div#footer{b}
+
+div#footer p{
+    margin:0;
+    padding:5px 10px;
+}
+
+div#footer a{display:inline; padding:0px;}
+
+div#wrapper{
+    float:right;
+    width:100%;
+    margin-left:-100px;
+    min-height:70%;
+    height: auto|important;
+}
+
+div#content{
+    margin-left:50px;
+}
+
+div#navigation{float:left;width:200px; margin-left:10px;}
+
+div#extra{
+    float:left;
+    clear:left;
+    width:200px;
+    margin-left:10px;
+    padding-top: 40px;
+    font: 75% Arial, sans-serif;
+}
+
+div#footer{clear:both;width:100%;padding-top:20px;text-align:center; font: 75% Arial, sans-serif;}
+
+table#parameters {
+	border-spacing: 0px;
+	border-collapse: collapse;
+	border: 1px solid #AED0EA;
+	background-color: white;
+	font: 90% arial, sans-serif;
+	margin-right:20px;
+}
+table#parameters th {
+    padding: 5px;
+	border: 1px solid #AED0EA;
+    background: #D7EBF9 url(cupertino/images/ui-bg_glass_80_d7ebf9_1x400.png) 50% 50% repeat-x;
+    font-weight: bold;
+    color: #2779AA;
+}
+table#parameters td {
+    word-wrap:break-word;
+	border-width: 1px;
+	padding: 5px;
+	border-style: solid;
+	border-color: #AED0EA;
+	background-color: white;
+	-moz-border-radius: ;
+}
