@@ -20,20 +20,15 @@ from google.appengine.ext.webapp import template
 
 import auth
 
-class MainHandler(webapp.RequestHandler):
-    def get(self):
-        self.response.out.write('Hello world again!')
-
 class GotoRootHandler(webapp.RequestHandler):
     def get(self):
-        self.redirect('/')
+        self.redirect('/profile')
 
 def main():
     application = webapp.WSGIApplication([('/oauthcallback', auth.CallbackHandler),
                                           ('/catchtoken', auth.CatchTokenHandler),
                                           ('/profile', auth.ProfileHandler),
                                           ('/logout', auth.LogoutHandler),
-                                          ('/', MainHandler),
                                           ('/.*', GotoRootHandler)],
                                          debug=True)
     util.run_wsgi_app(application)

@@ -14,7 +14,7 @@ def get_params():
     return {
               'scope':endpoints.SCOPE,
               'state':'/profile',
-              'redirect_uri':'http://' + os.environ['HTTP_HOST'] + '/oauthcallback',
+              'redirect_uri':'https://' + os.environ['HTTP_HOST'] + '/oauthcallback',
               'response_type':'token',
               'client_id':endpoints.CLIENT_ID
             }
@@ -68,7 +68,7 @@ class ProfileHandler(webapp.RequestHandler):
         template_info = {'target_url' : get_target_url()}
         
         if ('access_token' in session):
-            # we need to validate the access_token (long-lived sessions, might have timed out)
+            # we need to validate the access_token (long-lived sessions, token might have timed out - does it matter?)
             if(validate_access_token(session['access_token'])):            
                 # get the user profile information (USERINFO)
                 userinfo = json.loads(urlfetch.fetch(endpoints.USERINFO_ENDPOINT,
