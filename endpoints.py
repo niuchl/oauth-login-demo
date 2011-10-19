@@ -9,6 +9,6 @@ SCOPE = "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.c
 
 # client ID
 CLIENT_ID = "812741506391.apps.googleusercontent.com"
-CLIENT_SECRET = 'client_secret'
+CLIENT_SECRET = 'secret'
 REDIRECT_URI = 'https://' + os.environ["HTTP_HOST"] + '/oauthcallback'
 CODE_REDIRECT_URI = 'https://' + os.environ["HTTP_HOST"] + '/code'
