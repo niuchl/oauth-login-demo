@@ -8,65 +8,32 @@
 <body>
 
 <div id="container">
-	<div id="header">
-		<div id='loginBox'>
-			{% if userinfo %}
-				<a href='/logout'>Logout</a>
-			{% else %}
-				<a href='{{target_url}}'>Login</a>
-			{% endif %}
-	    </div>
-	</div>
-
 	<div id="wrapper">
 		<div id="content">
-			{% if 'id' in userinfo %}
-				<div id='datarow'>
-					<p>User ID: {{userinfo.id}}</p>
-				</div>
+			{% if userinfo %}
+				<a href='/logout'>Logout</a>
+				<table id="parameters">
+					<th>Field</th>
+				 	<th>Value</th>
+				    {% for key,value in userinfo.items %}
+						{% if key != 'picture' %}		
+							<tr>
+								<td>{{key}}</td>
+								<td>{{value}}</td>
+							</tr>
+						{% endif %}
+					{% endfor %}
+					{% if 'picture' in userinfo %}
+						<tr>
+							<td>picture<td>
+							<img src='{{userinfo.picture}}' alt='profile picture' width='100px'/>
+						</tr>
+					{% endif %}
+				</table>
+			{% else %}
+				<a href='{{target_url}}'>Login</a>
+				<p>Click the link above to retrieve your profile information<p>
 			{% endif %}
-			{% if 'name' in userinfo %}
-				<div id='datarow'>
-					<p>Name: {{userinfo.name}}</p>
-				</div>
-			{% endif %}
-			{% if 'given_name' in userinfo %}
-				<div id='datarow'>
-					<p>Given Name: {{userinfo.given_name}}</p>
-				</div>
-			{% endif %}
-			{% if 'family_name' in userinfo %}
-				<div id='datarow'>
-					<p>Family Name: {{userinfo.family_name}}</p>
-				</div>
-			{% endif %}
-			{% if 'locale' in userinfo %}
-				<div id='datarow'>
-					<p>Locale: {{userinfo.locale}}</p>
-				</div>
-			{% endif %}
-			{% if 'gender' in userinfo %}
-				<div id='datarow'>
-					<p>Gender: {{userinfo.gender}}</p>
-				</div>
-			{% endif %}
-			{% if 'email' in userinfo %}
-				<div id='datarow'>
-					<p>Email: {{userinfo.email}}</p>
-				</div>
-			{% endif %}
-			{% if 'verified_email' in userinfo %}
-				<div id='datarow'>
-					<p>Verified Email: {{userinfo.verified_email}}</p>
-				</div>
-			{% endif %}
-			{% if 'picture' in userinfo %}
-				<div id='datarow'>
-				 	<img src='{{userinfo.picture}}' alt='profile picture' width='100px'/>
-				</div>
-			{% endif %}
-			
-			
 		</div>
 	</div>
 	<div id="footer">

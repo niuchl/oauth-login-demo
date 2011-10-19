@@ -29,6 +29,7 @@ def main():
                                           ('/catchtoken', auth.CatchTokenHandler),
                                           ('/profile', auth.ProfileHandler),
                                           ('/logout', auth.LogoutHandler),
+                                          ('/code', auth.CodeHandler),
                                           ('/.*', GotoRootHandler)],
                                          debug=True)
     util.run_wsgi_app(application)

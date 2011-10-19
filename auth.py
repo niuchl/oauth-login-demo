@@ -14,7 +14,7 @@ def get_params():
     return {
               'scope':endpoints.SCOPE,
               'state':'/profile',
-              'redirect_uri':'https://' + os.environ['HTTP_HOST'] + '/oauthcallback',
+              'redirect_uri': endpoints.REDIRECT_URI,
               'response_type':'token',
               'client_id':endpoints.CLIENT_ID
             }
@@ -23,13 +23,9 @@ def get_target_url():
     params = get_params()
     return endpoints.AUTH_ENDPOINT + '?' + urllib.urlencode(params)
 
-def validate_access_token(access_token):
-        logging.info('Access Token: %s' % access_token)
-    
+def validate_access_token(access_token):    
         # check the token audience using exact match (TOKENINFO)
         url = endpoints.TOKENINFO_ENDPOINT + '?access_token=' + access_token
-    
-        logging.info("URL = %s" % url)
     
         tokeninfo = json.loads(urlfetch.fetch(url).content)
         
@@ -42,7 +38,6 @@ def validate_access_token(access_token):
 class LogoutHandler(webapp.RequestHandler):
     def get(self):
         session = get_current_session()
-        logging.info('Session: %s' % session)
         session.terminate()
         self.redirect('/profile')
 
@@ -60,8 +55,36 @@ class CatchTokenHandler(webapp.RequestHandler):
         
         session.regenerate_id()
         session['access_token'] = a_t
-        
 
+class CodeHandler(webapp.RequestHandler):
+    def get(self):
+        a_c = self.request.get('code')
+        logging.info("Code = %s" % a_c)
+        payload = {
+            'code':a_c,
+            'client_id':endpoints.CLIENT_ID,
+            'client_secret':endpoints.CLIENT_SECRET,
+            'redirect_uri': endpoints.CODE_REDIRECT_URI,
+            'grant_type':'authorization_code'
+        }
+        
+        encoded_payload = urllib.urlencode(payload)
+        ac_result = json.loads(urlfetch.fetch(url=endpoints.CODE_ENDPOINT,
+                                              payload=encoded_payload,
+                                              method=urlfetch.POST).content)
+        logging.info(ac_result)                                      
+         
+        a_t = ac_result['access_token']
+        if not validate_access_token(a_t):
+            self.error(400)
+        
+        session = get_current_session()
+        session.regenerate_id()
+        session['access_token'] = a_t
+        
+        self.redirect('/profile')
+            
+        
 class ProfileHandler(webapp.RequestHandler):
     def get(self):
         session = get_current_session()
@@ -73,6 +96,12 @@ class ProfileHandler(webapp.RequestHandler):
                 # get the user profile information (USERINFO)
                 userinfo = json.loads(urlfetch.fetch(endpoints.USERINFO_ENDPOINT,
                                                     headers={'Authorization': 'OAuth ' + session['access_token']}).content)
+                                                    
+                logging.info("Userinfo: %s" % userinfo)
+                
+                for k,v in userinfo.items():
+                    logging.info("Value: %s" % v)
+                
                 template_info = {
                                   'target_url' : get_target_url(),
                                   'userinfo' : userinfo

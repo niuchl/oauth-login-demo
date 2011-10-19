@@ -7,9 +7,7 @@ p{margin:0 10px 10px;}
 a{display:block;padding:10px;}
 
 div#loginBox {
-    float:right;
-    text-align: right;
-    position:relative;
+    text-align: center;
     top:5px;
     right:5px;
     font-size: 16px;
@@ -17,12 +15,6 @@ div#loginBox {
     padding-right:10px;
     padding-bottom:15px;
     font-weight:normal;
-    width:350px;
-}
-
-div#loginBox img{
-    float:right;
-    margin-left:10px;
 }
 
 div#loginBox a{display:inline;padding:5px;}
@@ -58,8 +50,6 @@ div#wrapper{
 div#content{
     margin-left:50px;
 }
-
-div#navigation{float:left;width:200px; margin-left:10px;}
 
 div#extra{
     float:left;
