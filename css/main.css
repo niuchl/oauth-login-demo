@@ -37,7 +37,7 @@ div#footer p{
     padding:5px 10px;
 }
 
-div#footer a{display:inline; padding:0px;}
+div#footer a{display:inline; padding:0px}
 
 div#wrapper{
     float:right;
@@ -60,7 +60,19 @@ div#extra{
     font: 75% Arial, sans-serif;
 }
 
-div#footer{clear:both;width:100%;padding-top:20px;text-align:center; font: 75% Arial, sans-serif;}
+div#footer{
+    clear:both;
+    width:100%;
+    padding-top:10px;
+    padding-bottom:10px;
+    text-align:center; 
+    font: 75% Arial, sans-serif;
+    position:fixed;
+    bottom:0;
+    left:0;
+    background-color:white;
+    border-top:1px solid black;
+}
 
 table#parameters {
 	border-spacing: 0px;
@@ -69,6 +81,7 @@ table#parameters {
 	background-color: white;
 	font: 90% arial, sans-serif;
 	margin-right:20px;
+	width:90%;
 }
 table#parameters th {
     padding: 5px;
@@ -77,6 +90,11 @@ table#parameters th {
     font-weight: bold;
     color: #2779AA;
 }
+
+#field  {
+    width:120px;
+}
+
 table#parameters td {
     word-wrap:break-word;
 	border-width: 1px;

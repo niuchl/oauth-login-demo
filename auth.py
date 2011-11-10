@@ -36,10 +36,17 @@ def validate_access_token(access_token):
             return True
 
 class LogoutHandler(webapp.RequestHandler):
-    def get(self):
+    def get(self):      
         session = get_current_session()
         session.terminate()
-        self.redirect('/profile')
+        
+        #need to clean this up...
+        logouturl = 'https://accounts.google.com/o/oauth2/auth?scope=https://www.googleapis.com/auth/userinfo.email+https://www.googleapis.com/auth/userinfo.profile&state=/profile&redirect_uri=http://localhost:8092/oauthcallback&response_type=token&client_id=812741506391.apps.googleusercontent.com'
+        logoutparams = {'continue': logouturl}
+        
+        logging.info("encoded params == %s" % urllib.urlencode(logoutparams))
+        
+        self.redirect('https://accounts.google.com/logout?service=lso&%s' % urllib.urlencode(logoutparams))
 
 class CallbackHandler(webapp.RequestHandler):
     def get(self):
@@ -59,7 +66,7 @@ class CatchTokenHandler(webapp.RequestHandler):
 class CodeHandler(webapp.RequestHandler):
     def get(self):
         a_c = self.request.get('code')
-        logging.info("Code = %s" % a_c)
+        logging.warn("Code: %s" % a_c)
         payload = {
             'code':a_c,
             'client_id':endpoints.CLIENT_ID,
@@ -72,8 +79,7 @@ class CodeHandler(webapp.RequestHandler):
         ac_result = json.loads(urlfetch.fetch(url=endpoints.CODE_ENDPOINT,
                                               payload=encoded_payload,
                                               method=urlfetch.POST).content)
-        logging.info(ac_result)                                      
-         
+                                              
         a_t = ac_result['access_token']
         if not validate_access_token(a_t):
             self.error(400)
@@ -91,16 +97,11 @@ class ProfileHandler(webapp.RequestHandler):
         template_info = {'target_url' : get_target_url()}
         
         if ('access_token' in session):
-            # we need to validate the access_token (long-lived sessions, token might have timed out - does it matter?)
+            # we need to validate the access_token (long-lived sessions, token might have timed out)
             if(validate_access_token(session['access_token'])):            
                 # get the user profile information (USERINFO)
                 userinfo = json.loads(urlfetch.fetch(endpoints.USERINFO_ENDPOINT,
-                                                    headers={'Authorization': 'OAuth ' + session['access_token']}).content)
-                                                    
-                logging.info("Userinfo: %s" % userinfo)
-                
-                for k,v in userinfo.items():
-                    logging.info("Value: %s" % v)
+                                                    headers={'Authorization': 'Bearer ' + session['access_token']}).content)
                 
                 template_info = {
                                   'target_url' : get_target_url(),
