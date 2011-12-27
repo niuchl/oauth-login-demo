@@ -15,10 +15,11 @@ def get_params():
               'scope':endpoints.SCOPE,
               'state':'/profile',
               'redirect_uri': endpoints.REDIRECT_URI,
-              'response_type':'token',
+              'response_type': endpoints.RESPONSE_TYPE,
               'client_id':endpoints.CLIENT_ID
             }
-                        
+                   
+                 
 def get_target_url():
     params = get_params()
     return endpoints.AUTH_ENDPOINT + '?' + urllib.urlencode(params)
@@ -50,7 +51,10 @@ class LogoutHandler(webapp.RequestHandler):
 
 class CallbackHandler(webapp.RequestHandler):
     def get(self):
-        self.response.out.write(template.render('templates/scripthandler.html', {}))
+        template_info = {
+                          'catchtoken_uri' : endpoints.CATCHTOKEN_URI
+                        }
+        self.response.out.write(template.render('templates/scripthandler.html', template_info))
         
 class CatchTokenHandler(webapp.RequestHandler):
     def get(self):
@@ -67,19 +71,25 @@ class CodeHandler(webapp.RequestHandler):
     def get(self):
         a_c = self.request.get('code')
         logging.warn("Code: %s" % a_c)
-        payload = {
+        ac_payload = {
             'code':a_c,
             'client_id':endpoints.CLIENT_ID,
             'client_secret':endpoints.CLIENT_SECRET,
-            'redirect_uri': endpoints.CODE_REDIRECT_URI,
+            'redirect_uri': endpoints.REDIRECT_URI,
             'grant_type':'authorization_code'
         }
         
-        encoded_payload = urllib.urlencode(payload)
+        encoded_payload = urllib.urlencode(ac_payload)
+        
+        logging.info('encoded payload: %s' % encoded_payload)
+        
         ac_result = json.loads(urlfetch.fetch(url=endpoints.CODE_ENDPOINT,
                                               payload=encoded_payload,
-                                              method=urlfetch.POST).content)
+                                              method=urlfetch.POST,
+                                              headers={'Content-Type':'application/x-www-form-urlencoded'}).content)
                                               
+        logging.info('auth code exchange result: %s' % ac_result)                                      
+        
         a_t = ac_result['access_token']
         if not validate_access_token(a_t):
             self.error(400)

@@ -10,7 +10,7 @@ while (m = regex.exec(queryString)) {
 // And send the token over to the server
 var req = new XMLHttpRequest();
 // consider using POST so query isn't logged
-req.open('GET', 'https://' + window.location.host + '/catchtoken?' + queryString, true);
+req.open('GET', '{{catchtoken_uri}}?' + queryString, true);
 
 req.onreadystatechange = function (e) {
   if (req.readyState == 4) {

@@ -8,9 +8,28 @@ USERINFO_ENDPOINT = 'https://www.googleapis.com/oauth2/v1/userinfo'
 SCOPE = "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"
 LOGOUT_URI = 'https://accounts.google.com/logout'
 
-# client ID
-CLIENT_ID = "812741506391.apps.googleusercontent.com"
-CLIENT_SECRET = 'secret'
-REDIRECT_URI = 'https://' + os.environ["HTTP_HOST"] + '/oauthcallback'
-CODE_REDIRECT_URI = 'https://' + os.environ["HTTP_HOST"] + '/code'
-ROOT_URI = 'https://' + os.environ["HTTP_HOST"]
+# client ID / secret & cookie key
+CLIENT_ID = 'updatetoyourclientid'
+CLIENT_SECRET = 'updatetoyourclientsecret'
+COOKIE_KEY = 'createacookiekey - probably using os.urandom(64)'
+
+is_secure = os.environ.get('HTTPS') == 'on'
+protocol = {False: 'http', True: 'https'}[is_secure]
+
+ROOT_URI = protocol +'://' + os.environ["HTTP_HOST"]
+
+RESPONSE_TYPE='token'
+
+if (RESPONSE_TYPE == 'token'):
+    REDIRECT_URI = ROOT_URI + '/oauthcallback'
+elif (RESPONSE_TYPE == 'code'):
+    REDIRECT_URI = ROOT_URI + '/code'
+else:
+    REDIRECT_URI = ROOT_URI + '/code'
+
+CATCHTOKEN_URI = ROOT_URI + '/catchtoken'    
+
+
+
+
+
